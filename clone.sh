@@ -3,16 +3,16 @@ set -e
 
 echo "=== Iniciando descarga directa para Saipan (Moto G50 5G) ==="
 
-# 1. Limpiar directorio previo
+# 1. Limpiar directorio previo por completo
 rm -rf kernel
-mkdir -p kernel/clang
 
-# 2. Clonar el kernel de Motorola (que ya vimos que descarga perfecto)
+# 2. Clonar PRIMERO el kernel de Motorola
 echo "Clonando kernel-mtk de Motorola..."
 git clone --depth=1 -b MMI-S1RS32.38-20-9 https://github.com/MotorolaMobilityLLC/kernel-mtk kernel
 
-# 3. Descargar Clang directamente mediante un archivo comprimido con wget
+# 3. Crear la carpeta clang y descargar Clang DESPUÉS
 echo "Descargando toolchain Clang..."
+mkdir -p kernel/clang
 wget -O clang.tar.gz https://github.com/LineageOS/android_prebuilts_clang_host_linux-x86_clang-r416183b/archive/refs/heads/lineage-18.1.tar.gz
 
 echo "Descomprimiendo Clang en su carpeta..."
