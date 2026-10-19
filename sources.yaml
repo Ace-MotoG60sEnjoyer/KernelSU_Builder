@@ -1,4 +1,4 @@
-saipan:
+Lineage-OS20:
   KERNEL_SOURCE: "https://github.com/MotorolaMobilityLLC/kernel-mtk"
   KERNEL_BRANCH: "MMI-S1RS32.38-20-9"
   KERNEL_DEFCONFIG: "saipan_defconfig"
