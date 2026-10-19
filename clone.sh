@@ -1,37 +1,18 @@
 #!/bin/bash
+set -e
 
-# Get version from GitHub environment variable
-version=${VERSION}
+echo "=== Iniciando clonación directa para Saipan (Moto G50 5G) ==="
 
-# Check if version is provided
-if [ -z "$version" ]
-then
-    echo "No version specified. No kernel or clang will be cloned. Exiting..."
-    exit 1
-fi
+# 1. Limpiar directorios por si acaso dejaron residuos
+rm -rf kernel
 
-# Convert the YAML file to JSON
-json=$(python -c "import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout)" < sources.yaml)
+# 2. Clonar el código fuente del kernel de Motorola
+echo "Clonando kernel-mtk de Motorola..."
+git clone --depth=1 -b MMI-S1RS32.38-20-9 https://github.com/MotorolaMobilityLLC/kernel-mtk kernel
 
-# Parse the JSON file
-kernel_commands=$(echo $json | jq -r --arg version "$version" '.[$version].kernel[]')
-clang_commands=$(echo $json | jq -r --arg version "$version" '.[$version].clang[]')
+# 3. Clonar la toolchain Clang (usando un repositorio público y estable)
+echo "Clonando Clang..."
+mkdir -p kernel/clang
+git clone --depth=1 -b lineage-18.1 https://github.com/LineageOS/android_prebuilts_clang_host_linux-x86_clang-r416183b kernel/clang
 
-# Print the commands that will be executed
-echo -e "\033[31mClone.sh will execute following commands corresponding to ${version}:\033[0m"
-echo "$kernel_commands" | while read -r command; do
-    echo -e "\033[32m$command\033[0m"
-done
-echo "$clang_commands" | while read -r command; do
-    echo -e "\033[32m$command\033[0m"
-done
-
-# Clone the kernel and append clone path to the command
-echo "$kernel_commands" | while read -r command; do
-    eval "$command kernel"
-done
-
-# Clone the clang and append clone path to the command
-echo "$clang_commands" | while read -r command; do
-    eval "$command kernel/clang"
-done
+echo "=== ¡Clonación completada con éxito! ==="
