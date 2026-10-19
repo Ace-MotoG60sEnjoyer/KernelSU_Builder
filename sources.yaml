@@ -1,8 +1,8 @@
 saipan:
   kernel:
-    - "git clone --depth=1 https://github.com/MotorolaMobilityLLC/kernel-mtk -b MMI-S1RS32.38-20-9"
+    - "git clone --depth=1 -b MMI-S1RS32.38-20-9 https://github.com/MotorolaMobilityLLC/kernel-mtk"
   clang:
-    - "git clone --depth=1 https://github.com/kdrag0n/android_prebuilts_clang_host_linux-x86_clang-r383902 -b master"
+    - "git clone --depth=1 -b master https://github.com/kdrag0n/android_prebuilts_clang_host_linux-x86_clang-r383902"
 
 AnyKernel3:
   version:
